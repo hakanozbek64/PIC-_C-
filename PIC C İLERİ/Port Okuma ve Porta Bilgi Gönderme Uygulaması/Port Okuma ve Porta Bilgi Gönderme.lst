@@ -1,0 +1,122 @@
+CCS PCM C Compiler, Version 4.074, 49549               10-Eki-12 19:27
+
+               Filename: E:\DONANIM_PROJE\PIC C ÝLERÝ\Port Okuma ve Porta Bilgi Gönderme Uygulamasý\Port Okuma ve Porta Bilgi Gönderme.lst
+
+               ROM used: 59 words (1%)
+                         Largest free fragment is 2048
+               RAM used: 8 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    0 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+.................... /****************************************************** 
+....................  Uygulama Adý      : Port Okuma ve Porta Bilgi Gönderme 
+....................  Programýn Amacý   : A portu RA0,RA1,RA2 ve RA3 pinlerine baðlý butonlarýn durumunun 
+....................                      okunarak, okunan bu bilginin B portuna baðlý LED'lerde gösterilmesi 
+....................  PIC PROG/DEKA     : Port B jumper'ý LED konumunda olmalý 
+....................  Yazan             : hakan özbek 
+.................... *******************************************************/ 
+....................  
+.................... #include <16f877.h>     // Kullanýlacak denetleyicinin baþlýk dosyasý tanýtýlýyor. 
+.................... //////// Standard Header file for the PIC16F877 device //////////////// 
+.................... #device PIC16F877 
+.................... #list 
+....................  
+....................  
+.................... #fuses XT,NOWDT,NOPROTECT,NOBROWNOUT,NOLVP,NOPUT,NOWRT,NODEBUG,NOCPD // Denetleyici konfigürasyon ayarlarý 
+....................  
+.................... #use delay(clock=4000000)   // Gecikme fonksiyonu için kullanýlan osilatör frekansý belirtiliyor 
+....................  
+.................... #use fast_io(a) // Port yönlendirme komutlarý A portu için geçerli 
+.................... #use fast_io(b) // Port yönlendirme komutlarý B portu için geçerli 
+....................  
+.................... #byte portb=6  // Bu komutla portb kelimesi denetleyicinin B portu kaydedicisi adresiyle eþleþtirilmiþtir 
+....................  
+.................... int giris;     // 8 bitlik tamsayý tipinde deðiþken tanýmlanýyor 
+....................  
+.................... /********* ANA PROGRAM FONKSÝYONU********/ 
+....................  
+.................... void main () 
+.................... { 
+*
+0004:  CLRF   04
+0005:  BCF    03.7
+0006:  MOVLW  1F
+0007:  ANDWF  03,F
+0008:  BSF    03.5
+0009:  BSF    1F.0
+000A:  BSF    1F.1
+000B:  BSF    1F.2
+000C:  BCF    1F.3
+....................    setup_psp(PSP_DISABLED);        // PSP birimi devre dýþý 
+*
+0010:  BSF    03.5
+0011:  BCF    09.4
+....................    setup_timer_1(T1_DISABLED);     // T1 zamanlayýcýsý devre dýþý 
+0012:  BCF    03.5
+0013:  CLRF   10
+....................    setup_timer_2(T2_DISABLED,0,1); // T2 zamanlayýcýsý devre dýþý 
+0014:  MOVLW  00
+0015:  MOVWF  78
+0016:  MOVWF  12
+0017:  MOVLW  00
+0018:  BSF    03.5
+0019:  MOVWF  12
+....................    setup_adc_ports(NO_ANALOGS);    // ANALOG giriþ yok 
+001A:  BSF    1F.0
+001B:  BSF    1F.1
+001C:  BSF    1F.2
+001D:  BCF    1F.3
+....................    setup_adc(ADC_OFF);             // ADC birimi devre dýþý 
+001E:  BCF    03.5
+001F:  BCF    1F.0
+....................    setup_CCP1(CCP_OFF);            // CCP1 birimi devre dýþý 
+0020:  BSF    21.2
+0021:  MOVF   21,W
+0022:  BSF    03.5
+0023:  MOVWF  07
+0024:  BCF    03.5
+0025:  CLRF   17
+....................    setup_CCP2(CCP_OFF);            // CCP2 birimi devre dýþý 
+0026:  BSF    21.1
+0027:  MOVF   21,W
+0028:  BSF    03.5
+0029:  MOVWF  07
+002A:  BCF    03.5
+002B:  CLRF   1D
+....................  
+....................    set_tris_a(0xFF);    // A portu tümüyle giriþ olarak yönlendiriliyor 
+002C:  MOVLW  FF
+002D:  BSF    03.5
+002E:  MOVWF  05
+....................    set_tris_b(0x00);    // B portu tümüyle çýkýþ olarak yönlendiriliyor 
+002F:  MOVLW  00
+0030:  MOVWF  06
+....................  
+....................    output_b(0x00);      // B portu çýkýþlarý sýfýrlanýyor 
+0031:  BCF    03.5
+0032:  CLRF   06
+....................  
+....................    basla: 
+....................  
+....................    giris=input_a();   // A port giriþi komple okunuyor ve okunan deðer giris deðiþkenine aktarýlýyor 
+0033:  MOVF   05,W
+0034:  MOVWF  20
+....................    giris=giris&0b00111111;  // giris deðerinin yüksek deðerlikli son 2 biti maskeleniyor 
+0035:  MOVLW  3F
+0036:  ANDWF  20,F
+....................    portb=giris;       // giris deðiþkeni deðeri B portuna çýkýþ olarak gönderiliyor 
+0037:  MOVF   20,W
+0038:  MOVWF  06
+....................  
+....................    goto basla;        // basla etiketine dallanýlýyor 
+0039:  GOTO   033
+.................... } 
+003A:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3F39   XT NOWDT NOPUT NOPROTECT NOBROWNOUT NOLVP NOCPD NOWRT NODEBUG

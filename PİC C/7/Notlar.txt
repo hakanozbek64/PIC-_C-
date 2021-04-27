@@ -1,0 +1,158 @@
+7. ders:
+
+
+timer 0 ý zamanlayýcý ve sayýcý olarak kullanabiliriz.
+
+timer0 ile ilgili sayýcý  yapýlacak.
+
+buton kullanarak sayýcý olarak kullanabiliriz.
+
+sayýcý oalarak kullanabilemk için data sheetlerine bakmak gerekir.pinlerin ne iþe yaradýgýnýn bilinmesi gerekir.
+
+RO vs baglanabiliyýrdu ancak burda kafamýza göre baglanmýyacak...
+
+
+5. bit RA4 Biti yani,
+
+
+cok iyi bilimelidir
+
+
+
+5. bit 1 ise harici 
+
+5. bit 0 ise dahil kaynak oldugunu bilmeliyiz.
+
+
+biz burada harici kaynagý kullanacagýz..
+
+inetnal kýsmý high to low yapýlacak düþen kenerda degiþim olacak.
+
+þekli cizicez...
+
+
+baglanma þekli farklý button kýsmýnýn, direnc yeri özellikle..
+
+---------
+
+uygulama :
+
+ button iki kez basýldýgýnda kesme meydana gelsin...
+
+program kýsmýnda bazý düznlemer yapýcsaz...
+
+#include "E:\DONANIM_PROJE\PÝC C\7\timer0_(sayýcý)\main.h"
+
+
+
+
+#use fast_io(b)
+
+int i=0;
+#int_timer0 //timer0 kesmesi
+void timer0_kesme()
+{
+ set_timer0(255); //timer0 degeri belirleniyor
+ i++;
+ 
+
+ output_b(i);
+ 
+ if(i==3)// 2 kez basýlmasýndan
+ { 
+  
+  i=0;
+ }
+ 
+ 
+}
+void main()
+{
+
+   setup_adc_ports(NO_ANALOGS);
+   setup_adc(ADC_OFF);
+   setup_spi(SPI_SS_DISABLED);
+  
+   setup_timer_1(T1_DISABLED);
+   setup_timer_2(T2_DISABLED,0,1);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   
+   set_tris_a(0x10);// RA 4. PÝN giriþ ayarladým.
+   set_tris_b(0x00);
+   output_b(0x00);
+   
+   setup_timer_0(RTCC_ext_H_L | RTCC_DIV_2); //timer0 ayarlarý yapýlýyor
+   set_timer0(255);
+  
+   enable_interrupts(INT_timer0); //int_timer0 kesmesi aktif edilyor
+   enable_interrupts(GLOBAL);
+   
+   while(1); 
+
+-----------
+
+256-255=1
+bölme oraný(div)=2 (2m kez basmasýný saglýyacagýz.)
+sayý i degeri ile sayýyoruz...
+
+
+
+
+1.kez basýldýgýnda  de 1 led yanýcak
+
+2. kez bas.de 2. led yanýcak 1. sönecek
+
+3.kez bas. oldugunda ise sýfýrlayacak.yani;
+
+
+1 ve 2.led yanmýþ oluyor
+
+
+RA4 pinin ne iþe yaradýgýný bilmemiz gerekiyor...
+
+
+
+harici kaynak kullanýlacagý zaman RA4 pin 1 yaptýgýmýz zaman bizim orayý aktif yapmalýyýz. ve asagýdaki gibi ayarlarý yapmamýz gerekiyor..
+
+setup_timer_0(RTCC_ext_H_L | RTCC_DIV_2)
+
+
+------------------------
+timer 1 den bahsediyoruz..
+
+
+timer 1 de zamanlayýcý ve sayýcý olarak kullanýlabilmektedir...
+timer 1 ;  16 bitlik zamanlatýcý sayýcý özelligine sahiptir.
+
+
+
+timer 0-> 0-255 arasýydý.
+
+
+timer 1-> 0-65535 arasýndadýr.yani sayar 
+
+65535-> 1111 1111 1111 1111 degerine eþittir.
+uygulama: timer 1 için zamanlayýcý yapýlacak..
+
+
+
+kodlarý düzenliyoruz.
+
+
+HESABI SÖYLE:
+
+k=t*bölme*65536-64286
+
+kristal 4 mhz f=4/4=1
+
+k*1usn*4*1250=0.5sn 
+
+50*0.5=2.5sn gibi hesaplanýyor.
+
+
+
+t=1/f=1/1=1usn
+
+
+

@@ -1,0 +1,27 @@
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\bin\Debug\serihaberleşme1.exe
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\bin\Debug\serihaberleşme1.pdb
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\obj\x86\Debug\serihaberleşme1.Form1.resources
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\obj\x86\Debug\serihaberleşme1.Properties.Resources.resources
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\obj\x86\Debug\serihaberleşme1.exe
+C:\Users\rclk\Desktop\c#denemleri\serihaberleşme1\obj\x86\Debug\serihaberleşme1.pdb
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\obj\x86\Debug\serihaberleşme1.exe
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\obj\x86\Debug\serihaberleşme1.pdb
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\bin\Debug\serihaberleşme1.exe
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\bin\Debug\serihaberleşme1.pdb
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\obj\x86\Debug\serihaberleşme1.Form1.resources
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\obj\x86\Debug\serihaberleşme1.Properties.Resources.resources
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\rclk\Desktop\recep celikkaya.com makaleler\pic dersleri\13.ders\serihaberleşme1\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\obj\x86\Debug\serihaberleşme1.exe
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\obj\x86\Debug\serihaberleşme1.pdb
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\bin\Debug\serihaberleşme1.exe
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\bin\Debug\serihaberleşme1.pdb
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\obj\x86\Debug\serihaberleşme1.Form1.resources
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\obj\x86\Debug\serihaberleşme1.Properties.Resources.resources
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\DONANIM_PROJE\PİC C\13\rf alıcı _verici_rs232 kullanarak\serihaberleşme1\obj\x86\Debug\GenerateResource.write.1.tlog

@@ -1,0 +1,30 @@
+2. ders:
+
+buton uygulamasý:
+
+butuona basýldýgýnda led yanacak kaldýrýldýgýnda led sönecek.
+
+kod acýklamasý:
+
+ set_tris_a(0x01);//buton baglanacak. a portunun bütün bacaklarýný logic 1 olarak ayarladýk.giriþ
+
+ set_trib(0x00);// led baglanacak.b pinini bütün bacaklarýný logic 0 ayarladýk .cýkýþ yaptýk yani.
+
+output_b(0x00);// temizleme yapar yani ilk enerji geldiginde direc ýsýk yanmasýný istemiyorum ben.
+
+
+while(1)// sonsuz dongu oluþturmak için 
+{
+ if (input()pin_a0))// a0 portuna basýlý ise input()pin_a0 ifadesi dogru olacak ve döngü içine giricek.istenilen pinin okunmasý saglanýyor.
+
+output_high(pin_b0);// enerji geldiginde logic 1 olmasý için kullandýk.bO pinin logic 1 olmasýný saglýyor.
+
+
+else //aksi takirde
+
+output_low(pin_b0);
+
+}
+
+cizim kýsmý yapýlýp bitiyor.
+

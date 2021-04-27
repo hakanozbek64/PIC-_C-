@@ -1,0 +1,52 @@
+1. ders:
+
+piciçin kullanýlacak programlar:
+pic c compiler
+
+isis -ares 
+
+usb pic progrmmer (usb ile pic eprogram atabilmek için gerekli )
+
+pic c compiler ile hex uzantýlý dosya oluþturuyoruz.
+
+program fonksiyonlarý yavaþ yavaþ gösterilecek 
+
+led yakmada kullanýlan üc komut:
+--------
+set_tris_b(0x00);// b portunu cýkýþ yaptýk//
+
+set tris hangi portun giriþ cýkýþ olacagýný belirtir.
+yukarda b pinin tüm portlarýný cýkýþ olarak ayarlar.
+
+output_b(0x00);// b portunun cýkýþlarýný sýfýrladýk
+
+while (1)   // ile sonsuz söngü oluþturulur.
+{
+output_high(pin_b0);// bo portunu logic 1 yapar(led yanar)
+
+delay_ms(250);// ledin yanma süresi(gecikme)
+
+output_low(pin_b0);
+delay_ms(250);
+
+output_low(pin_b1);
+delay_ms(250);
+
+output_low(pin_b1);
+delay_ms(250);
+
+}
+
+-----------------
+
+ÝSÝS 
+
+
+direncle ilgili r1 10k büyük bir direnc bunun yerine;
+
+110,220,330,470 ohm kullanýlabilir
+
+XT:Kristal 400-500 khz den baþlar 4 mhz kadar.
+XT kristalini 4 mhz yapmýþtýk kodda burada kristali týklayarak onuda 4 mhz yapýcaz.xt ile cap larýn bir aralýgý var.
+cap:22pf yaptýk data shetten .
+

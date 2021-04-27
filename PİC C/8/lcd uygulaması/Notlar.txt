@@ -1,0 +1,50 @@
+8. ders:
+
+lcd uygulamasý :
+
+lcd pinlerini tanýyalým.
+
+point  cýktýsýna  bakalým:
+
+standart lcd :
+
+lcd 14 pinden oluþur.
+bazýlarýnda 16 pinden oluþanlarda var.
+stnadart pin giriþi  ilk pinler:
+
+1. toprak 
+2. pozitif kaynak 
+3.kontrast ayar bu potansiyometre ile ayarlanýr genekde.burdada ayarlanacaktýr.
+4.saklayýcý secme(register select);veri yolundan gelen bilginin komut olup olmadýgýný anlamaya yarar.
+5.RW : OKU/YAZ pini.
+6.eneble (E) (yetki) ucu pini; okuma yada yazma gibi iþlemlere izin veriyor.baþlangýcta logic 1 olmasý gerekir.
+7-14 arasý pinler veri pinleri: data yoludur.
+
+bazýlarýnda olan 
+15-16. pinler ise toprak ve pozitif kaynak 
+olur genelde.bunlarla ýsýk ayarlamalarý yapýlýr.
+
+lcd standart genelde böyledir.
+
+ancak bizim ki böyle olmayabilir. genelde 
+
+lcd arkasýnda modeli ve bu pinlerin ne iþe yaradýgý belirtilmiþtir.
+
+data sheetlerinden de bakýlabilir.
+
+--------
+
+ccs pic programýn kendi lcd dosyasý bulunmakta içeriside biz onu ink lunk yaparak ayarlardan kurtulmuþ olacagýz(enable  1 olmasý vs gibi..)
+
+
+lcd.c kütüphanesinde bunlar bulunmaktadýr.
+
+lcd ler normalde D portu ile ayarlarý yapýlmýþtýr .biz onlarý B portu için ayarlýyacagýz...
+
+ B portunu kullanmak için bir komut yazýlýcaktýr.
+
+
+
+
+
+

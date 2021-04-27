@@ -1,0 +1,146 @@
+12.ders:
+
+RS232 ile seri haberleþme devresi yapýlacaktýr.
+
+burada yapýlan :
+klavyeden 
+
+b yazýlýnca b0 daki pin yanar
+
+i girince b1 deki pin yanar.
+
+s grince iki pinde söner .
+
+
+rs232 iletiþim formatý point ksýmýnda ekte var.bunu inceleyelim:
+
+
+öncelikle start biti var(olmak zorunda) 
+
+start biti ne iþe yarar:
+
+bilgi akýþýnýn baþladýgýný karþý tarafa bildirir.
+
+
+stop biti bilgi akýþýnýn bittigini ifade eder.
+
+arada kalan(start-stop) yer verilerimiz yada veri bitleridir.burada 8bitlik bir veri gönderilmiþ...
+
+yapýlacak iþ:
+
+B ye basýnca 1.led
+
+Ý ye basýnca 2. led 
+
+S ye basýnca iki ledte söndürülecektir.
+
+
+
+burada yeni bir entegre bulunmakta bu entegrenin görevi þu:
+
+rs te -12v/+12v arasý bir gerilim söz konusu bu gerilimi pic in anlayacagý 5v degerine indirger çünkü pic imiz +5v gibi bir degerde calýþýr..
+
+
+
+bunun için burada bizim gerilim dönüþtürücüye ihtiyacýmýz olacak bunu deverede max 232 entegresi ile yapýyoruz.
+
+
+max 232 entegresini bilgilerini datasheetlerinden ögrenebiliriz.
+
+baglantýlar pointte mevcut...
+
+burada diþi connector kullandýk:
+
+bu connector:
+
+
+rs232 bizim kullandýgýmýz  baglantýlar pointte mevcut.
+
+2. pin Rx veri alma biti 
+
+
+3. pin Tx  veri gönderme biti
+gnd toprak baglantýsý .
+
+
+
+biz burada bu 3 baglantýyý kullanýcagýz..
+
+
+
+
+devreyi görmek adýna sanal bir makine kullandýk  (visual terminal )
+
+
+
+
+kod larýmýzý yazýyoruz.
+
+
+
+
+
+
+#include <16f877a.h> iþlemcimizi tanýtýyoruz; include ediyoruz
+#fuses  konfirugasyon ayarlarý xt,nowdt,nobrownout,noput,noprotect,nodebug,nolvp,nocpd,nowrt
+#use delay(clock=4M) cristalin frekansýný ayarlýyoruz.
+rs232 ayarlarý yapýyoruz.
+
+#use rs232
+boud : saniyede gönderilen bit sayýsýný temsil ediyor.
+
+baud degerleri genelde;150,300,600,1200,2400,4800,9600,19200 e kadar gider.
+c6 ve c7 pinlerini tanýtmamýz gerekiyor.
+
+xmit : veri gönderme ucu,
+rvc: veri alan uc pin7 ucu.
+parity: asecron iletiþimde kullanýlýr ama biz burada kullanmýyacagýz yani noun için N veriyoruz.
+cift even tek old deniyor 
+
+gönderilen veri bitleri
+
+(baud=9600,xmit=pin_c6,rcv=pin_c7,parity=N,stop=1)
+
+yapýlacaklar:B girildiginde pin b deki pin aktif 1. led yanacak
+
+i karektri girildiginde 2. ledimiz yanacak
+
+int veri;integer türünden verimizi tanýmlýyoruz,karekter gireegiz ancak karekteri sayýsal bir veriye cevirerek göndericegi için int türünden bir degiþken  belirtiyoruz.
+void main()ana  programý yazýyoruz.
+
+{
+while(1) sonsuz döngü oluþturuyoruz.
+{
+veri=getch();klavteden girilen degiþkeni veri degiþkenine atýyoruz.
+if(veri=='b') ger b ise döngüye gir
+{
+output_high(pin_B0); b0 pinindeki led aktif /yakacak 
+}
+if(veri=='i') egeri ise 
+{
+output_high(pin_B1);b1 pinindeki veriyi yakýcak
+}
+if(veri=='s')eger s ise 
+{
+output_low(pin_B0);b0 ve b1 pileri pasif / sönecektir
+output_low(pin_B1);
+}
+}
+
+}
+
+
+b nin asic degeri 98 dir
+
+i nin asic degeri 105
+
+-----------
+
+kod kýsmý bitti 
+
+isis cizimini yapýp bitiriyoruz 
+
+
+***ders sonu.
+
+

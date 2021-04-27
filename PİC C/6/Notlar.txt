@@ -1,0 +1,154 @@
+6.ders:
+
+TÝMER 0 uygulamasý:
+
+timer 0 ; zamanlayýcý ve sayýcý olarak kullanýlabilen 8 bit bir birimdir.
+
+8 bit:
+örnegin  1111 1111 gibi 
+taþma oluþunca timer 0 kesmesi oluþur demiþtik.
+
+2 ^üzeri 8 den 
+
+ 255 bitten sonrasý taþma oluþur ve kesme meydana gelir.
+
+0x00 -0xff arsýnda bir deger alýr.
+
+0 baþlangýc 255 son degeridir.
+
+baþlangýc degerini ayarlayabiliriz.(örnekte kullanýlacaktýr.)
+
+
+us -mikrosn mertebesinde calýþýlýr . hassas yani.
+
+
+
+dahali ve harici ve yazma okuma özelikli olnalarý var.
+
+datasheetlerden tüm timer bitlerinin ne iþe yaradýgýný bulabiliriz.
+
+
+mesela dahili ve harici bit 5 e ait olan bir durumdur. 
+
+tabiki acýp okuma  daha uygundur.
+
+
+timer0 ý zamanlayýcý ve sayýcýdan olarak kullanmadan bahsetmiþtik:
+bu nedemek?
+ mesela :
+kahve makinelerinde bardagý koyunca 5 sn doluyor sonra dolmuyor  yapmýyor.yani kesme oluþturarak iþlemi bitiriyor.yani zaman aþtýgý için kesme oluþuyor.
+
+
+
+sayýcý olarak 1 tl verince 1 bardak verir 2. bardagý vermez .saydýgý için
+
+önce zamanlayýcý örnegi yapýlacak:
+
+10 kesme oluþsun led yansýn bir 10 kesme daha oluþtugunda led sönsün.
+böyle basit bir alýþtýrma yapalým:
+
+acýklama:
+
+
+
+#include "C:\Users\rclk\Desktop\pic  c denemeleri\Timer0 Uygulamasý-1\Timer0 Uygulamasý-1.h"
+
+#use fast_io(b) -> kullanýlacak port
+
+int i=0;-> degiþken tanýmalama.
+#int_timer0 //timer0 kesmesi-> kullanýlacak kesme türü
+void timer0_kesme()-> fonksiyon oluþturuyoru.adý timer0_kesme olsun
+{
+ set_timer0(60); //60 dan baþlasýn ve 255 e kadar gitsin 255 ten sonra taþma olacak.
+yani timer0 degeri belirleniyor
+ i++; ->i degeri 0 dan 10kadar artarak gider 
+ 
+ if(i==10) ->eger 10 olursa 
+ output_high(pin_b0);pin b0 pinini yakýyoruz.
+ 
+ if(i==20)
+ { 
+  output_low(pin_b0);-> eger 20olursa pin bo pini sönecek
+  i=0; -> i degerini 0 layalým ki döngü olsun yazmassak bir kez döngü 20 olur.
+ }
+ 
+ 
+}
+void main()
+{
+
+   setup_adc_ports(NO_ANALOGS);
+   setup_adc(ADC_OFF);
+   setup_spi(SPI_SS_DISABLED);
+   setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);
+   setup_timer_1(T1_DISABLED);
+   setup_timer_2(T2_DISABLED,0,1);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   
+   set_tris_b(0x00);bütün b portlarýný cýkýþ yapýyorum.
+   output_b(0x00);b pinine enerji verildiginde temizlemiþ oluyoruz.
+   
+iþelmciyle beraber calýþsýn ayný sinyal kaynagý ile  calýþmasý için kullanýyoruz.
+
+   setup_timer_0(RTCC_INTERNAL | RTCC_DIV_256); //timer0 ayarlarý yapýlýyor
+
+bölme yapýlýyor :
+
+bilndigi gibi iþlemcim bagladýgým kristalin  4 e bölünmesi ile iþlemimi görüyordu.
+mesela frekans diyoruk:
+
+f=4/4=1 mhz kullanýyor iþlemcim
+4 mhz _> kristal frekansý
+
+bölme ile bunu kçültebiliyoruz.
+taþma süresini hesaplayabiliriz.
+yani kesme süresi.
+kesme süresi hesabý þöule bulunur:
+
+t(periot)*bölme sayýsý(div)*256-0 normalde 
+
+bizim degerimiz 60 olugundan;
+
+t(periot)*bölme sayýsý(div)*256-60
+olur :
+
+t=1/f =1/1 mhz =1/1000000=1us 
+
+div =256 olucak ozaman;
+
+
+t(periot)*bölme sayýsý(div)*256-60 da yerine koyarsak:
+
+1*256*196=50175
+
+altý basamak kaydýrýrsak 1mikro saniyeden dolayý
+
+0.05 sn gibi bir süre elde edilir.
+
+10 kesme oldugu için ;
+
+10 kesme oldugu zaman 0.5 sn led yanar 
+10kesmede 0.5 sn led söner 
+
+......... böyle devam eder.
+
+
+   set_timer0(60);
+  her defasýnda 60 dan baþlamasý için yazýyorum.iki taraflý yazmamýz gerekiyor.
+
+   enable_interrupts(INT_timer0); -> kesmelere izin veriliyor.//
+kesmesi aktif edilyor genel olarak.
+   enable_interrupts(GLOBAL);
+   
+   while(1);-> sonsuz döngümüzü oluþturuyoruz.
+}
+
+
+cizim kýsmýný yapýp bitiriyoruz..
+
+
+
+*** ders sonu
+
+

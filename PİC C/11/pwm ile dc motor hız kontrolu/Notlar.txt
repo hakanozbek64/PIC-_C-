@@ -1,0 +1,197 @@
+11. ders:
+
+pwm ile dc motor hýz kontrolü yapýlacaktýr..
+
+
+timer 2 nedir? bundan bahsedecegiz...
+
+
+8 bitlik bir kesmedir..kesme ceþitlerimizden birisidir..
+
+timer 0 da 8 bitliktir.
+
+timer 1 16 bitlikti.
+
+digerlerinden farklý olarak postscaler denilen bir durumu var.
+
+yapý olarak diger timerlardan pek bir farký yoktur.
+
+period hesaplanmasý var *printf de bu gösterilmiþ 
+
+burdaki postsceler nedir?
+
+
+
+
+8 bit oldugu için 0-255 sayar ve 256 da sýfýrlanýr.taþma oluþup kesme oluþur ..
+
+burada ise her taþmada degil 
+
+
+postsceler örnegin 2 ise  kesme (taþma ) sonunda bir kesme oluþacak.
+yani verien postsceler sayýsý bu kesmeleri belirliyor.
+
+postsceler a 1-16 arasý deger verebiliyoruz.
+
+
+örnegin 15 verisek postsceler a 15. taþmada bir kesme oluþacaktýr.
+
+timer 2 bölme oraný;
+1,4,16 degerini verebiliyoruz.
+
+
+bu nedir?
+
+4mhz bir iþlemci kullandýgýmýzda
+
+iþlemci bunu 4 e bölerek iþlemini yapýyordu.
+
+4 verirsek 4+4 de bölecek 
+
+
+16 verirsek 64de bölecek.
+
+
+stup_timer_2(t2_div_16*255*1)
+
+
+
+div:16
+
+pv2:255
+
+pastsceler:1 verdik
+
+
+timer 2 yi  niçin kullanýyoruz ?
+
+
+bu pwm modulüne sinyal üretmek için kullanýlýr.
+yukardaki degerleri pwm için belirledik.
+
+
+buradaki postsceler degerini pwm de kullanamýyoruz yani sadece 1 degerini verebiliyoruz.
+
+
+postsceler: 1 (pwm için);
+pr2:(periyot yazmacý) 255;
+
+dir.
+
+
+pwm den bahsedersek;
+
+
+
+pwm :darbe geniþlik modulasyonu olarak cevrilir.
+
+burada üretilecek darbelerin geniþliklerini kontrol ederek cýkýþta analog bir deger yada sinyal elde etmek için kullanýyoruz.
+
+
+
+adc uygulamamýzda ne yapmýþtýk.
+ADC de analog bir degeri digitale cevirerek iþlemcimizin iþlem yapmasýný saglamýþtýk.
+
+buradada digitali tekrar analoga cevirebiliyoruz...bu iþelm için  kullanabiliyoruz.
+
+
+pwm daha cok : güç kaynaklarýnda ,voltaj düzenleyicilerde ve motor sürücülerinde kullanýlabilir 
+
+
+  kodlarý yazalým:
+
+
+
+#include <16f877a.h>  iþlemcimizi tanýtýyoruz.
+#device adc=8; adc kullanýyoruz cözürülügü 8 bit .
+#fuses ;konfrugasyon ayarlarýný yapýcaz.
+
+xt,nowrt,nowdt,nodebug,nobrownout,nolvp,nocpd,noput,noprotect
+#use delay(clock=4M); kristal  ayarýný yapýyoruz.
+#use fast_io(e);kullanacagýmýz portlar;
+#use fast_io(c);kullanacagýmýz portlar;
+#use fast_io(b); kullanacagýmýz portlar;
+#define use_portb_lcd TRUE;b portundaki lcd yi belirtiyoruz.
+
+#include <lcd.c> ;lcd dosyasýný include edmem gerekiyor.
+
+
+unsigned int digital;degiþeken blirtiyoruz.
+
+
+void main();ana pogram yapýlmasýný istedigimiz þeyleri yazýyoruz.
+{
+setup_timer_2(T2_DIV_BY_16,250,1);timer 2 kesmesinin ayarlarýný yapýyoruz.
+setup_CCP1(CCP_PWM);ccp modul ayarlarýný yapýyoruz.pwm pinini kullanýyoruz.
+setup_CCP2(CCP_OFF);diger pini off yapýyoruz.
+setup_adc(adc_clock_div_2);adc ayarlarýný yapýyoruz.
+setup_adc_ports(ALL_ANALOG);tüm analog giriþlerini tanýmladýk.
+
+set_tris_c(0x00);cýkýþ yaptýk.çünki burada motor vardý.
+set_tris_e(0xFF);e portlarý giriþ .
+set_tris_b(0x00);b portlarý cýkýþ yaptýk.
+output_c(0x00);c cýkýþ yaptýk .
+
+set_adc_channel(5); //an5 .kanal  secimini belirtiyoruz.
+
+delay_us(20);gecikme süresi belirtiyoruz.
+
+
+lcd_init();lcd hazýrlýyoruz ve yazý gönderiyoruz.
+printf(lcd_putc,"\fpwm ile dc \n kontrolu");\f ile temizliyoruz ve 
+pwm ile dc kontrolü yazýyoruz.
+delay_ms(1000);gecikme süresi
+
+
+pwm ayarýný belirtiyorum.
+
+set_pwm1_duty(0);pwm 1 modülü kulalnacagýmýz için duty sinyal oranýmýzý belirtiyor.motor ilk baþta calýþamyacak
+
+
+
+while(1);sonsuz döngü oluþturuyoruz.
+{
+digital=read_adc();read adc ile bunu okuyoruz yukarda bunun için bir degiþken degerine yaptýk ve buraya degeri  atýyoruz . yukarda 
+delay_us(20);
+motor sürücü nasýl durum oluþturuyor;
+
+
+
+output_high(pin_c3); motor ileri gitmesi için high diyoruz .
+output_low(pin_c4);motor geri için .
+
+if(digital>250) deger 250 den büyük olamaz.büyük olursa baþka ayarlar gerekir falan..
+
+digital=250;250den büyük olursa 250 ye eþitliyoruz.
+sinyal oranýný degiþtiriyoruz önce duruyordu þimdi calýþtýrýyoruz.
+
+set_pwm1_duty(digital);örnegin digital 100 olursa sinyal oraný 100 olacak buda yüzde 40 degerine tekabil ediyor.
+digital degerine ne yzdýralým ?
+
+printf(lcd_putc,"\fdigital=%u"digital);
+delay_ms(50);
+temizleyip integer oldugu için u ile belirtilip digital oluþtutulur.
+}
+
+}
+
+
+kodlarý hazýrlýyoruz.
+
+
+ve devreyi hazýrlayýp bitiriyoruz.
+
+
+***ders sonu.
+
+
+
+
+
+
+
+
+
+
+
+

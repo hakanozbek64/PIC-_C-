@@ -1,0 +1,144 @@
+9. ders
+
+adc  _led uygulamasý :
+
+adc lerden bahsedersek;
+
+adc anolog digital converter
+
+anologo digitale ceviricez burada 
+
+bilindgi gibi dünyadaki sistemeler analogtur:ýsý nem vs..gibi þeyler analogtur.
+bunlarý mikroiþlemcinin anlayablcegi digital bir  veriye yani digitale cevirmemiz gerekiyor.
+
+örnegin 25 celcum bunu 1101 gigi mesela bir degere cev rilmesi gerekiyor...bunun için adc kullanmamý gerekiyor...
+
+bizim kullnýcagýmýz mikrodenetliyicide (16f8877) de bu analog digital converter   dahili olarak bulunmakta 
+ anaolog digital converter 8 tane pinde bulunmaktadýr ..
+RA0,RA1,RA2,RA3,RA5,RE0,RE1,RE2 pinlerinde bulunmaktadýr.
+
+16f877a da bu pinlerin yanýnda AN li kýsaltmalar vardýr.
+
+bu pinlerle ilgili bir calýþma yapýlacaktýr...
+
+analog bir degerin karþýlýgýný nasýl alýyor program ...
+point uzantýlý dosyayý inceleyiniz.
+
+------------
+kod kýsmýnda  daha önceki gibi hazýr ayarlý degilde kendimiz bu ayarlarý yapýcaz bunun içinde ;
+new ->source file kýsmýndan giriyoruz.
+
+kod yorumlama:
+
+
+#include <16f877a.h>öncelikle kullanýgýmýz pini belirtiyoruz.
+
+#device adc=10  ;10 bit kullanmak istiyoruz. 8bit kullanýrsak sayý degiþir.
+
+#fuses ; fuse ayarlarý yapýlýyor bu h dosyasý uzantlý olanlar için bir ayarlamadýr.kullanýlacak yapýlar  aþagýdadýr.
+
+XT,NOLVP,NOBROWNOUT,NOWDT,NOPROTECT,NODEBUG,NOPUT,NOWRT,NOCPD
+#use delay(clock=4000000);osilatör ayarý 4m þeklindede yazýlabilir.
+
+lcd kullanýcaz ;lcd potansiyometre sayesinde ekranda kac volt ve bu digital degerleri ekranda yazdýracagýz.
+
+lcd kullanýlacagý için b port kullanýlacak 
+potansiyometre kullanýlacagý için adc olan bir pine baglanmasý gerekiyor...bunlarý zaten söylemiþtik
+;
+RA0,RA1,RA2,RA3,RA5,RE0,RE1,RE2 pinleridir.
+
+biz RA1 pinine baglýyoruz...
+
+
+#use fast_io(a); a portu tanýmlýyoruz.okuyor yani
+
+#use fast_io(b); b portu tanýmlýyoruz .okuyor yani
+
+lcd port b pinine baglýyacagýmýz için ;
+b pininde tanýmlýyoruz.
+
+#define use_portb_lcd TRUE
+#include <lcd.c>
+lcd dosyamýzý include etmemiz gerekiyor.
+
+void mani ile fonksiyonumuzu oluþturalým..
+
+
+unsigned long int dijital;digital karþýlýgý yada  degeri
+float volt; degiþken bilirtmemiz 
+gerekiyor.
+
+volt burada 2.8 gibi float türünden bir deger olabilir.ondan float secilmiþtir.
+bu analog karþýlýgýdýr .digital karþýlýýgý ise yukardadýr.
+
+void main()
+{
+set_tris_a(0x01); //0000 0001 
+set_tris_b(0x00);bütün portlar cýkýþ
+
+setup_adc(adc_clock_div_32);4mz 32 bölerek kullanacak
+setup_adc_ports(all_analog);AN pinlerini analog olarak kulalnýlacagýný belirtir.
+
+
+
+lcd yi hazýrlýyoruz..
+
+potensiyometre ile voltu artýrýp azaltýcaz
+onu volt þeklinde bize yazdýracak..
+ 
+adc degeri okuyacak ve digital degiþkenime atýyacak
+
+
+lcd_init();lcd hazýrlýyoruz.
+printf(lcd_putc,"adc uygulamalari");
+yazdýrmasýný istedigimiz þeyler
+
+delay_ms(1000);geçikme süresi veriyoruz.
+
+donguye sokucaz ;içinde 
+potansiyo metre kullanýlacak
+
+while(1)
+
+kanal secimi yapýyoruz.
+set_adc_channel(0);ra0 //ador buradaki (0)RA0 pinini iþaret eder.
+delay_us(50); //muhakkak verilmeli
+
+dijital=read_adc();adc okudugu degeri digital degere atýyacak.
+
+0.0048828 degeri bilindigi gibi adým degeridir.
+diyelim ki 100 cýktý bunuda 0.0048 carparsam voltsalkarþýlýgýný buluruz...
+
+volt=0.0048828*dijital;
+
+
+lcd ye yazdýrmalýyýz;
+lcd_putc ile lcd ye bilgi gönderme yapýyoruz...
+digitali yazdýrýyoruz.
+
+
+printf(lcd_putc,"\fdijital=%lu",dijital);
+lcd_gotoxy(1,2);
+analog degerini yazdýrýyoruz.volt degerinde
+
+printf(lcd_putc,"analog=%.2fV",volt);
+delay_ms(1000);
+
+
+
+}
+}
+
+
+
+isis cizimini yapýp býrakýyoruz...
+
+
+ders sonu
+
+
+
+
+
+
+

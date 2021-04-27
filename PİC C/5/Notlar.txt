@@ -1,0 +1,166 @@
+5.ders:
+
+bu ders:kesmeler yani interruptlar incelenecektir..
+
+bir kesme uygulamasý yapýlacaktýr.
+
+kesmeye günlük hayattan bir örnek vericek olursak...
+  2 mantýgý vardýr...
+1.mantýk 
+iki arkadaþ konuþuyoruz .bir konudan spor,vs birisi gelip(3. sahýs) bize bir soru sordu bu durumda biz ona cevap verip tekrar ayný bahsi gecen konudan devam ederiz ..interuplar buna benzer ...
+
+iþte bizim kaldýgýmýz yeri aslýnda saklý tutar bizde iþ bittikten sonra devam ederiz..
+iþte kesmelerdede bu böyledir. belirli bir adreste saklanýr..burasý yýgýn(stack te tutulur.) olarak bilinir.
+
+
+2. mantýk
+  iki arkadaþ biz konuþurken birbirinden farklý sorular yonlendirse dogal olarak ikisinede cevap veremiyecegi için önce birine daha sonra digerine cevap verivektir...kesmeler de böyledir ayný anda 2 kesme meydana gelmez 
+önce mesela ;timer0 kesmesi daha sonra external kesmesi olur
+
+kesmelerde öncelik olabilir..
+
+kesme aniden oluþur..kesme cagrýlmaz !!
+
+arkadaþý biz cagýrmadýk aniden geldi yanýmýza...
+ ve ayný anda 2 kesme oluþmaz ...
+
+bir kesme oluþtuktan sonra diger kesme oluþabilir..
+öencelikleride vardýr..
+
+16f 877a  incelendigi için 
+
+16f 877a nýn kesme optionlarýný görelim...
+
+pic c compaler acýlýp proje oluþturulup 16f 877a secildikten sonra standart kod penceresi ekrana gelecektir.
+ buradan gecerli interruplarý görebilmek için view menusunden valid ýnterrupt secenegine týklanýr ..
+
+
+pencerede:
+
+RTCC kesmesi timer0 kesmesi taþtýgýnda oluþan kesmedir .
+
+EXT RB1 dir genelde dýþ kesme diger adý.
+
+RB : port b ile b4-b7 pinleri arasýnda olan  degiþimde oluþan kesmelerdir.
+
+
+timer 1 ve timer 2 var ayný þekilde timer 0 gibi.
+
+
+RDA var rs232 (bilgisayarda ekran  klavye arasýnda ki bir 
+seri ileriþim standarý yada kablosu)
+
+eeprom: yazma tamamlandýgýnda oluþan kesmedir.
+
+ingilizcesi var buradan okuyabilirsiniz..
+
+
+þimdi biz kodu yazarken ;
+
+EXT (dýþ kesmesini),timer 0 ,RB gibi kesmeler kullanýlacaktýr.
+
+
+gelelim kod kýsmýmýza :
+
+
+1. mantýk :
+
+
+int_eee // hangi kesmenin kullanýlacagýný belirlemek için ana bir fonksiyon
+
+yani taimer 0,ext ,rb vs gibi 
+
+
+öncelikle buradan;
+
+
+#use fast_io(b);kullanacagýmýz giriþ cýkýþ pinlerini tanýtýyoruz programýmýza.
+
+#int_ext; hangi tür kesme olacak .
+
+ve sonra bir fonksion yazarýz bilindigi gibi ;
+
+void bir dýs kesme yazýlýr .
+ kesmeler cagrýlmadýgý için void kullanýlabilir.
+
+fonk ismi 
+ void ý_kesme()
+{
+yapmak istedigimiz iþlemleri uygulayacagýz..
+
+
+
+
+}
+
+
+dýs kesme rb0 pinine ait olan kesme 
+
+rbo da degiþiklik sýnucu oluþan bir kesmedir.
+
+butonlu  iþlem yapýlacaktýr.
+
+
+butonla logic 1 vericez...
+
+
+set_tris rbo oldugu yere 
+
+bu degiþim sonucu yani basýldýgýnda led yansýn
+
+böyle bir kesme olsun
+
+output_high(pin_b1);
+
+istenilen pine enerji verir yani 1 yapar;
+burada b1 pini logic 1 verilmiþtir.
+
+
+delay_ms(100); gecikme süresi;
+
+output_low(pin_b1); pinimize enerji vermiyoruz led söner.
+
+delay_ms(100);
+..........
+
+............
+
+kesmenin komuutunu verelim;
+
+set_tris_b(0x01);istenilen pinin giriþ yada cýkýþ olarak ayarlanmasýný saglýyordu.
+bo pinini giriþ olarak belirtmeliyiz..
+
+output_b(0x00);bütün port pinlerini cýkýþ yaptým.enerji geldigi anda 0 verir.
+
+
+
+kesmede kullanýcagýmýz komutlara gelirsek;
+
+
+ext_int_edge(H_TO_l);DIS Kesmenin düþen kenarda aktif olavagýný belirtir.
+yani 1 ken 0 olursa bu degiþimde kesmenin olacagýný belirtir..
+ 0iken 1 oldugunda kesmenin olmayacagýný belirtir.
+  kesmelere izin vermemiz gerekiyor. onun için;
+
+
+enable_interrupt(ýnt_ext);dýs kesmeye izin verdik.
+ enable_ýnterrupts(global);  global tüm kesmelere izin verildigini belirtir.bu olmssa dýs kesme dahil hiç birine izin verilmez.
+
+
+en son sonsuz dongu veriyoruz .4
+
+while(1){} aynen böylede kullanýlabilir.
+
+
+2. mantýk:
+
+for dongusu ile yapýldý.
+
+
+
+ders sonu:
+
+
+
+
+

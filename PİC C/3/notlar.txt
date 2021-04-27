@@ -1,0 +1,107 @@
+3.ders:
+
+karýsýk led uygulamasý:
+yani:
+butona 1 .kez basýldýgýnda 1.led
+
+butona 2. kez basýldýgýnda 2.led
+
+butona 3.kez basýldýgýnda 3.led yakýp.
+
+butona 4.kez basýldýgýnda ise togle uygulamasý (logic 0 ise logic 1 ,logic1 ise logic 0 yapar ters iþlem yapar yani)
+
+yandýysa 1 tur atýnca söndürecek ,bir tur daha atýnca yanacak gibi.
+
+yanacak sönecek devrede yani.
+
+butona 5 kez basýnca ledler sönecek(sýfýrlanma)
+
+
+kod acýklama:
+
+int btsys=0 //inttüründen bir degiþken oluþturup 0 a eþitliyoruz.butonu saymasý için kullanýlýyor.(buton sayýcý)
+.............
+.............
+.............
+standart kütüphane gibi
+
+set_tris_a(0x001)// a portunun tüm pinlerini 1 yaptýk.giriþ
+
+set_tris_b(0x00);b portunun tüm pinlerini 
+0 yaptýk .cýkýþ yaptýk.
+  output_b(0x00);     //ilk eneri verildigindeki durum için
+ pinleri temizlemiþ oluyorum.
+
+butona 1 .kez basýldýgýnda 1.led
+
+butona 2. kez basýldýgýnda 2.led
+
+butona 3.kez basýldýgýnda 3.led yakýp.
+
+butona 4.kez basýldýgýnda ise togle uygulamasý (logic 0 ise logic 1 ,logic1 ise logic 0 yapar ters iþlem yapar yan.)
+
+yandýysa 1 tur atýnca söndürecek ,bir tur daha atýnca yanacak gibi.
+
+
+while(1)// döngüye sokar..
+{
+
+if(input(pin_a0))// input o pinin okumasýný saglýyordu.
+
+buton sayýcý kullanmamýz gerkiyor.
+bysyc++// her basýldýgýnda artýrýlsýn.
+
+while(input(pin_a0));// butona basýlý tuldugu müddetce anlamýndadýr.
+
+
+if(btsyc==1)// buton sayýcýmýz 1 ise birini ledi yakmamýz gerek ozaman
+{
+
+
+delay_ms(150);// buton bekleme süresi
+
+output_high(pin_bo);//bo pini yakýyoruz.
+}
+if(btsyc==2)
+
+delay_ms(150);
+
+output_high(pin_b1);// b1 pinini yakýyoruz.
+
+}
+
+if(btsyc==3)
+
+delay_ms(150);
+
+output_high(pin_b2);
+
+
+}
+
+if(btsyc==4)// togel uygulamasý yapýlacak.
+
+delay_ms(150);
+
+output_toggle(pin_bo);
+
+delay_ms(150);
+
+output_toggle(pin_b1);
+
+delay_ms(150);
+output_toggle(pin_b2);
+
+delay_ms(150);
+
+butona 4 ten fazla 5,6...
+basýldýgýnda ise sayýcýyý sýfýrlýyoruz.
+yani;
+
+
+if(btsyc==1)
+
+{
+
+
+cizimimizi yapýp bitiriyoruz.

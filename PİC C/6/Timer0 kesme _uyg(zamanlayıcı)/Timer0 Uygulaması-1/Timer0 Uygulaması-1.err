@@ -1,0 +1,6 @@
+*** Error 18 "Timer0 Uygulamasý-1.c" Line 1(9,92): File can not be opened
+    Not in local "C:\Users\rclk\Desktop\pic  c denemeleri\Timer0 Uygulamasý-1\Timer0 Uygulamasý-1.h"
+*** Error 99 "Timer0 Uygulamasý-1.c" Line 3(5,16): Option invalid   Not a valid port: B
+*** Error 128 "Timer0 Uygulamasý-1.c" Line 5(1,12): A #DEVICE required before this line
+*** "Timer0 Uygulamasý-1.c" Line 6: Error #7: Invalid Pre-Processor directive
+      4 Errors,  0 Warnings.

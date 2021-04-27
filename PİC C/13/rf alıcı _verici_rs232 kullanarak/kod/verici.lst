@@ -1,0 +1,140 @@
+CCS PCM C Compiler, Version 4.074, 49549               06-Eki-12 14:05
+
+               Filename: E:\DONANIM_PROJE\PÝC C\13\rf alýcý _verici_rs232 kullanarak\kod\verici.lst
+
+               ROM used: 89 words (1%)
+                         Largest free fragment is 2048
+               RAM used: 7 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   019
+0003:  NOP
+.................... #include <16f877a.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt,nowrt,nowdt,nobrownout,nolvp,nocpd,nodebug,noprotect,noput 
+.................... #use delay(clock=4M) 
+0004:  MOVLW  21
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   018
+000A:  MOVLW  01
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  4A
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  GOTO   016
+0016:  DECFSZ 00,F
+0017:  GOTO   00A
+0018:  RETLW  00
+.................... #use rs232(baud=600,parity=N,xmit=pin_c6,rcv=pin_c7,bits=8) 
+.................... int veri; 
+....................  
+.................... void main() 
+.................... { 
+0019:  CLRF   04
+001A:  BCF    03.7
+001B:  MOVLW  1F
+001C:  ANDWF  03,F
+001D:  MOVLW  67
+001E:  BSF    03.5
+001F:  MOVWF  19
+0020:  MOVLW  A2
+0021:  MOVWF  18
+0022:  MOVLW  90
+0023:  BCF    03.5
+0024:  MOVWF  18
+0025:  BSF    03.5
+0026:  BSF    1F.0
+0027:  BSF    1F.1
+0028:  BSF    1F.2
+0029:  BCF    1F.3
+002A:  MOVLW  07
+002B:  MOVWF  1C
+....................  
+.................... while(1) 
+.................... { 
+.................... veri=getch(); 
+002C:  BCF    03.5
+002D:  BTFSS  0C.5
+002E:  GOTO   02D
+002F:  MOVF   1A,W
+0030:  MOVWF  20
+.................... if(veri=='b') 
+0031:  MOVF   20,W
+0032:  SUBLW  62
+0033:  BTFSS  03.2
+0034:  GOTO   044
+.................... { 
+.................... putc(0b01010101); 
+0035:  MOVLW  55
+0036:  BTFSS  0C.4
+0037:  GOTO   036
+0038:  MOVWF  19
+.................... putc('X'); 
+0039:  MOVLW  58
+003A:  BTFSS  0C.4
+003B:  GOTO   03A
+003C:  MOVWF  19
+.................... putc('A'); 
+003D:  MOVLW  41
+003E:  BTFSS  0C.4
+003F:  GOTO   03E
+0040:  MOVWF  19
+.................... delay_ms(50); 
+0041:  MOVLW  32
+0042:  MOVWF  21
+0043:  CALL   004
+.................... } 
+.................... if(veri=='s') 
+0044:  MOVF   20,W
+0045:  SUBLW  73
+0046:  BTFSS  03.2
+0047:  GOTO   057
+.................... { 
+.................... putc(0b01010101); 
+0048:  MOVLW  55
+0049:  BTFSS  0C.4
+004A:  GOTO   049
+004B:  MOVWF  19
+.................... putc('X'); 
+004C:  MOVLW  58
+004D:  BTFSS  0C.4
+004E:  GOTO   04D
+004F:  MOVWF  19
+.................... putc('B'); 
+0050:  MOVLW  42
+0051:  BTFSS  0C.4
+0052:  GOTO   051
+0053:  MOVWF  19
+.................... delay_ms(50); 
+0054:  MOVLW  32
+0055:  MOVWF  21
+0056:  CALL   004
+.................... } 
+....................  
+....................  
+.................... } 
+0057:  GOTO   02D
+.................... } 
+....................  
+....................  
+....................  
+0058:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3F39   XT NOWDT NOPUT NODEBUG NOPROTECT NOBROWNOUT NOLVP NOCPD NOWRT

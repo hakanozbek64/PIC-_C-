@@ -1,0 +1,176 @@
+13.ders:
+
+rf alýcý verici devresini inceleyecegiz...
+alýcý ve verici olarak uteranýn 
+
+APX_34 ve 
+ARX_34 kullanýlacaktýr...
+
+
+internette bununla ilgili bircok örnek bulunmaktadýr.
+
+bunlarý incelersek...
+-----------------
+
+verici ;
+
+4 pini var 1. pin +5v verilen pin
+
+            2. ucu digital input pic e takýlan uc
+
+
+3. uc toprak
+
+4. uc ANT  anten ucu : anten 17.3cm öngörülmüþtür.kýsa mesafe 4-5cm ise anten takýlmasýna gerek yoktur.
+antensiz calýþýr ama daha fazla mesafede anten takýlmasý gerekli.
+
+
+kullaným talimatlarýnda ise:
+
+besleme voltajýnýn altýnda þöyle bir ifade var :
+
+ATX-345 te voltaj regulatoru bulunmamaktadýr.pil kullanýmý düþünerek yapýlmýþtýr.bunun için besleme voltajýna dikkat etmek gereklidir.bunun için biz 7805 voltaj regulatorunu kullanýyoruz.
+
+bunu 5v degerine yakýn bir deger elde etmek için kullanýcaz .
++-100mv degerindeki degiþimler kararsýz calýþmaya neden olabilir.bu yüzden voltaj regülatörü kullanýyoruz.
+
+condansatör kullanarak enerjinin sabitlenmesini saglayabilirsiniz.
+
+
+data formatý kýsmý ( önemlidir):
+
+buradaki mantýk rs232 deki iltiþim formatýyla benzer 
+
+start bit +data+ stop bit gibi 
+
+
+burada ise;
+
+TX: preaple+secon+data1+..datax
+
+
+
+ preaple de: 01010100 gibi bir veriyi gönderiyor yada 0x55 ve 0xAA gibi de olabilir.
+
+
+secron için 0x00 veya 0xff verisi gönderilebilir biz x verisi gönderecegiz.
+
+
+alýcý kýsmýnda preaple ye bakýlmaz sadece secron aranýr ve sonrasýnda data okunur denmektedir.
+bunu söylede anlayabilriiz burada kod yazarken preable kýsmýný yazmayarak sadece secrondan baþlayarak yapabiliriz cünkü alýcý zaten secrondan baþlýyor ...
+
+
+
+------------------------------
+
+alýcý: 
+
+
+1.pin anten *
+
+
+
+2. toprak  *
+
+3.+5v
+
+4.pin  analog output 
+
+5. pin digital output  * biz burada bunu kulalnýcaz 
+
+yapýlan calýþma:  bilgisayardan verim gelicek (j1 kýsmý ) Rx ucuna ( alýcý ucuna ) burada veri iþelenecek TX ile alýcýný baglý bunundugu pic e gönderilecek RX ile alýnacak ve led yanýcak yada sönecek.
+
+
+kodlar: 
+
+verici kod:
+#include <16f877a.h>
+#fuses xt,nowrt,nowdt,nobrownout,nolvp,nocpd,nodebug,noprotect,noput
+#use delay(clock=4M)
+#use rs232  //seri haberleþme ayarlarýný yapýyoruz.çünki  o pinleri kullanýyoruz.(baud=600,parity=N,xmit=pin_c6,rcv=pin_c7,bits=8)
+
+boud:(hýzý) 600 datasheette 300-2400 arasýnda vardý.
+parity=N kullanýlmýyor 
+xmit=pin_c6 veri gönderme biti
+
+ve 8 bit veri gönderiyoruz.
+
+
+int veri;klavyeden bir karekter girecegim için bir degiþken ataman gerekli onun için veri kullanýlýyorz.
+
+void main()
+{
+set tris komutlrýný yapmýyoruz onlarý hem kullanmýyoruz hemde ayarlý zaten.
+while(1)
+{
+veri=getch();klavyeden bir veri girinceye kadar bekle girilince de veri degiþkenime atanacak 
+if(veri=='b') eger veri b ise ( bir gibi yakma) 
+{
+putc(0b01010101);prepabel için kod 
+putc('X');secron için 
+putc('A');ve data  için kod gönderir
+delay_ms(50);
+}
+ayný þeyi s içinde yapýyoruz ( söndürme gibi )
+if(veri=='s')
+{
+putc(0b01010101);
+putc('X');
+putc('B'); burada sadece b gönderiliyor.
+delay_ms(50);
+}
+karþý taraf bu preable kýsmýný sorgulamýyacaktýr.burada karþý tarafa x verisini tanýtmamýz gerekli yani x verisi geldi mi þu iþlemleri yap gibi.
+-----------
+kod : 
+
+alýcý:
+
+
+
+
+#include <16f877a.h>
+#fuses xt,nowrt,nowdt,nobrownout,nolvp,nocpd,nodebug,noprotect,noput
+#use delay(clock=4M)
+#use rs232(baud=600,parity=N,rcv=pin_c7,bits=8)
+
+char e; türünden bir degiþken atýyoruz harfler için yani karþýdan gelen bilgiyi e ye atayarak iþlem yapýcam .
+
+
+
+void main()
+{
+set_tris_b(0x00);ilk anda sýfýrlamak için 
+output_b(0x00);
+while(1)  sonsuz döngü( for yada goto da kullanýlabilir.) 
+{
+if(getch()=='X')secron aranýyor .preable aranmýyordu secronda x alýnýnca þu iþlemleri yap diyoruz.
+
+{
+ikinci gelen veriyi yada degeri e degiþkenine atamýþ oluyorum.
+e=getch();
+if(e=='A') eger gelen veri A ise led yan 
+{
+output_high(pin_B0);
+}
+if(e=='B') eger secrondan sonra gelen veri B ise led söndür.
+{
+output_low(pin_b0);
+}
+}
+}
+}
+
+
+}
+}
+
+
+***ders sonu
+
+
+
+
+
+
+
+

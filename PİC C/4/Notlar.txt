@@ -1,0 +1,76 @@
+4. ders:
+display uygulamasý:
+
+adsýz .point bakýnýz
+
+displaylar ortak anot ve ortak katot olmak üzere 2 kýsma ayrýlýr.
+farký katotlara - baglarken 
+      anodlara + baglýyoruz.
+7 segment display bu.7 parcadan oluþmuþtur.
+
+1 sayýsýný elde eebilmek için b ve c ye ayný anda enerji veilmesi gerekir.ledlerde oldugu gibi..
+
+ledlerde de bilindigi üzere pinlere baglanýyordu 
+bo b1 nolu pinlere enerji verilirmesi gerekiyordu..
+bunlara enerji verilmesi mesela a,b,c ye enerji verilmesi gibi hex karsýlýgý var .
+3f gibi mesela..
+
+
+KOD ACIKLAMASI:
+
+
+#include "E:\DONANIM_PROJE\PÝC C\4\display_uygulamasý\main.h"
+
+
+#define SIZE 10
+
+#use fast_io(b)-> kullanacagýmýz portu tanýtýyoruz.bu portu kullanacagýmýz belirtiyoruz.burada b portunu kullanýyoruz 
+
+
+
+const int display[16]={0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7C, 0x07, 0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x3F};
+
+//
+tüm sayýlarýn hez karþýlýklarýný dizi þeklinde tanýtýyoruz.yani 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F ynai onaltý tane sayý ve hex harþýlýklarý olmasý gerekiyor.buradaki const degiþmez oldugunu belirtir.ve dizimisin ismini veriyoruz örnegin display gibi..[16] degeri yazýlýr çünki 16 sayýya ihtitac var.ve bu 16 sayýyý da yazýyoruz parentez içine.
+0x3F-> 0 dan baþlar
+.................... 
+0x3F-> 16 degeridir .
+//
+int i;-> degiþkenler fonksiyonlarýn main kýsmnýn içinede yada dýþýna üstüne yazýlabilirler.
+
+void main()
+{
+
+   setup_adc_ports(NO_ANALOGS);
+   setup_adc(ADC_OFF);
+   setup_psp(PSP_DISABLED);
+   setup_spi(SPI_SS_DISABLED);
+   setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);
+   setup_timer_1(T1_DISABLED);
+   setup_timer_2(T2_DISABLED,0,1);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   
+   set_tris_b(0x00);-> tüm pinlerini cýkýþ yani 0 olarak ayarlýyoruz.
+
+   output_b(0x00);-> temizliyoruz.
+   
+   while(1)-> sonsuz döngü oluþtumamýz için kullanýlýr.
+   {
+    for(i=0;i<16;i++) ->for  döngüsü yazýyoruz 16 ya kadar oldugu için 15 e kadar belirtiriz.16 tane olmuþ olur.
+    {
+    output_b(display[i]);display dizinin ismi zaten burada þunu yapýyor aslýnda 
+ for döngüsünde i=0 oldugundan 
+ döngü içine girer ve
+
+output_b(display[0] dan 0. dizi olan hex uzantýlý deger  0x3F ifadesini  yazdýrýr yani  0 degerini verir.
+bu þekilde for dongusunde i=1 .. þeklinde giderek tüm degerleri yazdýrmýþ olur.
+
+    delay_ms(size);bekleme süresi  100 verilebilir.bunu hýzlandýrmak içinde degerleri ile oynayabilirsiniz.
+    }
+   
+   
+   }
+  
+
+***ders sonu:

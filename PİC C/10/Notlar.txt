@@ -1,0 +1,114 @@
+10. ders:
+lm 35 ile sýcaklýk sensörü yapýlacak...
+lm 35 nedir?
+sýcaklýk sensörü bu devredede kullanýcagýz...
+ln 35 ölçtügü sýcaklýgý analog olarak gönderir bizim cýkýþýmýza ve bu sýcaklýkla degiþiyor.
+
+lm 35 devresi ayrýca ;
+
+her 1 santrigrad derecede analog bir deger gönderir  yani 10mv gibi bir deger gönderir
+bizde bunu digital degere cevirerek pic in anlayacagý bir degere ceviricegiz...
+lm 35 baglantýlarý : 
+point ekinde mevcutur.
+
+data sheette ektedir ..
+
+buradan bir kac önemli hususa bakýcak olursak...
+
+
+biz typical application ksýmýndan :
+
+hangisini yapýcaz secmemiz gerekiyor nasýl bir uygulama olacak ona göre bir tip seciyoruz buradan ...
+
+
+
+biz buradan ilki yani;
+
+
+FIGURE 1. Basic Centigrade Temperature Sensor
+(+2°C to +150°C)
+olaný seciyoruz.
+
+gelelim kod kýsmýna :
+
+
+
+kod :
+#include <16f877a.h> iþlemci modeli
+#device ADC=10// kaç bir adc kullanacagýmýzý yazýyoruz.//
+#fuses XT,NOWRT,NOPROTECT,NOWDT,NOLVP,NOCPD,NODEBUG,NOPUT,NOBROWNOUT 
+//confirugasyon ayarlarýný yaptýk.
+#use delay(clock=4M)// kristal hýzý 
+#use fast_io(a)// a portu kullanacagýmýzý belirttik 
+#define use_portb_lcd TRUE// lcd ninde b portunu kullanacagýmýzý belirtelim.
+#include <lcd.c> // ve elc kütüphanesini includ ediyoruz .
+
+//buraya kadar olan kodlar bilinen þeyler 
+int dijital;// degiþkenler atýyoruz 1024 kadar olur 
+float sicaklik,Mvolt; // float türünden 
+bir degiþkendir.
+
+void main() ana fonksiyon 
+{
+set_tris_a(0x01); //ra0 aktif
+setup_adc(adc_clock_div_32);clock sinyal ayarý
+setup_adc_ports(AN0);
+lcd_init();lcd hazýrlanýyor.
+kanal secimi yapýyoruz.
+set_adc_channel(0);RA0 oldugu için, ilk pin yani
+delay_us(50);
+printf(lcd_putc,"\fSicaklik=");önce temizliyoruz tabi..
+
+while(1) sonsuz döngü oluþturuyoruz.
+
+{
+dijital=read_adc();adc deki degeri digitale atýyoruz.
+
+adým büyükügü ;
+burada 0.0048828412 dir. adc 10 oldugu için 
+burada adým büyükügü ile digital degeri carparsak volt degeri buluruz .
+milivolta cevirmek için 1000 degeri ile carparýz 
+
+Mvolt=(0.0048828412*dijital)*1000;
+her 1 santrigradta 10mv oynarsa 
+10 degerine bölerek derececinsinden  (sýcaklýgý buluruz )
+
++2 ile +150 santrgrad arasý oldugu için 
++2 derece ekliyoruz .
+sicaklik=(Mvolt/10)+2;
+
+lcd_putc,  lcd ye bilgi gönderiyor.
+%f float türünden oldugunu belirtir.
+%c asci karþýlýgý sayý gelicek onu belirtir....bu bir boþlýktur.yani 223 degerinin asci karþýlýgý .
+bu lcd.c kütüphanesinde hazýr bulunur.
+
+lcd_gotoxy(10,1);
+printf(lcd_putc,"%f%cC",sicaklik,223);
+
+ayrýca milivolt degerini göndermek istiyoruz . 
+%c
+lcd_gotoxy(1,2);
+burada 1,2 demek 2.satýr 1. sütün demektir.
+
+printf(lcd_putc,"Mvolt=%f",Mvolt);
+delay_ms(1000);
+}
+
+}
+
+
+
+isis devresinide oluþtrup bitiriyoruz.
+
+ders sonu.
+
+
+
+
+
+
+
+
+
+
+
